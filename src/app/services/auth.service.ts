@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { NavController, AlertController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
-
+import { Observable, of } from 'rxjs';
+import { switchMap} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  user: Observable<User>;
   constructor(private afs: AngularFirestore, private nav: NavController, public afAuth: AngularFireAuth, private alertCtrl : AlertController ) { 
     afAuth.auth.onAuthStateChanged((user)=>{
       if(user){
@@ -15,6 +17,15 @@ export class AuthService {
         this.nav.navigateRoot("");
       }
     })
+    this.user = this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
+        } else {
+          return of(null)
+        }
+      })
+    )
   }
 
  

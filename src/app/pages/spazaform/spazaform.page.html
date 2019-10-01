@@ -1,0 +1,65 @@
+<ion-content fullscreen>
+    <form [formGroup]="form" class="my-form">
+        <div class="forms">
+            <ion-buttons slot="start">
+                <ion-back-button></ion-back-button>
+            </ion-buttons>
+            <div class="form">
+
+                <ion-item color="transparent" class="group">
+                    <ion-label position="floating">Name of Spaza:</ion-label>
+                    <ion-input type="text" formControlName="Spaza"></ion-input>
+                </ion-item>
+                <div *ngIf="form.controls.Spaza.invalid && form.controls.Spaza.dirty">
+                </div>
+                <div class="error" *ngIf="form.get('Spaza').hasError('required') && form.get('Spaza').touched">
+                    Please input your Name of your spaza
+                </div>
+                <br>
+                <ion-item color="transparent" class="group">
+                    <ion-label position="floating">Discription:</ion-label>
+                    <ion-textarea type="Discription" formControlName="Discription"></ion-textarea>
+                </ion-item>
+                <div *ngIf="form.controls.Discription.invalid && form.controls.Discription.dirty">
+                </div>
+                <div class="error" *ngIf="form.get('Discription').hasError('required') && form.get('Discription').touched">
+                    Please input your Discription
+                </div>
+                <br>
+                <ion-item color="transparent" class="group">
+                    <ion-label position="floating">Address:</ion-label>
+                    <ion-input type="text" formControlName="Address"></ion-input>
+                </ion-item>
+                <div *ngIf="form.controls.Address.invalid && form.controls.Address.dirty">
+                </div>
+                <div class="error" *ngIf="form.get('Address').hasError('required') && form.get('Address').touched">
+                    Please input your Address
+                </div>
+                <br>
+                <ion-item color="transparent" class="group">
+                    <ion-label position="floating">Open Hours:</ion-label>
+                    <ion-input type="Hours" formControlName="Hours"></ion-input>
+                </ion-item>
+                <div *ngIf="form.controls.Hours.invalid && form.controls.Hours.dirty">
+                </div>
+                <div class="error" *ngIf="form.get('Hours').hasError('required') && form.get('Hours').touched">
+                    Please input your Open Hours
+                </div>
+                <br>
+                <ion-item color="transparent" class="group">
+                    <ion-label position="floating">Phone Number:</ion-label>
+                    <ion-input type="Number" formControlName="Number"></ion-input>
+                </ion-item>
+                <div *ngIf="form.controls.Number.invalid && form.controls.Number.dirty">
+                </div>
+                <div class="error" *ngIf="form.get('Number').hasError('required') && form.get('Number').touched">
+                    Please input your Phone Number
+                </div>
+                <br>
+                <div class="group">
+                    <ion-button expand="block" color="medium" [disabled]="!form.valid" (click)="Submit()">Submit</ion-button>
+                </div>
+            </div>
+        </div>
+    </form>
+</ion-content>

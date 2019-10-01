@@ -3,82 +3,81 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>profile</ion-title>
+        <!-- <ion-title>profile</ion-title> -->
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen>
     <ion-list lines="none">
+        <div *ngIf="authService.user  | async as user">
+            <div class="profile-image">
+                <div *ngIf="user.photoURL =='' ">
+                    <img src="/assets/img/avatar.svg">
 
-        <div *ngFor="let user of users | async">
-            <div *ngIf="currentuser == user.uid">
+                </div>
+                <div *ngIf="user.photoURL !='' ">
+                    <img data-src="{{user.photoURL}}" (click)="zoom(user)">
+                    <!-- <div *ngIf="(uploadPercent | async ) >0 && (uploadPercent | async ) !=''"> -->
 
-
-                <div class="profile-image">
-                    <div *ngIf="user.photoURL =='' ">
-                        <img src="/assets/img/avatar.svg">
-
-                    </div>
-                    <div *ngIf="user.photoURL !='' ">
-                        <img data-src="{{user.photoURL}}" (click)="zoom(user)">
-                        <!-- <div *ngIf="(uploadPercent | async ) >0 && (uploadPercent | async ) !=''"> -->
-
-                    </div>
-                    <div class="image-upload">
-                        <ion-fab horizontal="center" vertical="top" class="fab">
-                            <ion-fab-button color="light">
-                                <ion-icon name="camera" class="input" color="medium"> </ion-icon>
+                </div>
+                <div class="image-upload">
+                    <ion-fab horizontal="center" vertical="top" class="fab">
+                        <ion-fab-button color="light">
+                            <ion-icon name="camera" class="input" color="medium"> </ion-icon>
+                        </ion-fab-button>
+                        <ion-fab-list side="start">
+                            <ion-fab-button color="warning">
+                                <ion-icon name="camera" color="light" (click)="pickImage()" class="camera"> </ion-icon>
                             </ion-fab-button>
-                            <ion-fab-list side="start">
-                                <ion-fab-button color="warning">
-                                    <ion-icon name="camera" color="light" (click)="pickImage()" class="camera"> </ion-icon>
-                                </ion-fab-button>
 
-                            </ion-fab-list>
+                        </ion-fab-list>
 
-                            <ion-fab-list side="end">
-                                <ion-fab-button color="warning">
-                                    <label for="file-input1">
-                                                    <ion-icon name="document" color="light" class="document"> </ion-icon> 
-                                            </label>
-                                </ion-fab-button>
-                            </ion-fab-list>
-                        </ion-fab>
+                        <ion-fab-list side="end">
+                            <ion-fab-button color="warning">
+                                <label for="file-input1">
+                                                        <ion-icon name="document" color="light" class="document"> </ion-icon> 
+                                                </label>
+                            </ion-fab-button>
+                        </ion-fab-list>
+                    </ion-fab>
 
 
-                        <input id="file-input1" class="input" type="file" (change)="uploadProfilePic($event)" />
-                    </div>
+                    <input id="file-input1" class="input" type="file" (change)="uploadProfilePic($event)" />
                 </div>
-
-                <div class="spinner" *ngIf="((uploadPercent | async ) >0 && (uploadPercent | async ) !='') || (progress>0 && progress !='')">
-                    <ion-spinner name="crescent" color="success"></ion-spinner>
-                </div>
-                <br><br><br>
-
-                <ion-list>
-                    <ion-item>
-                        <ion-label>Details</ion-label>
-                    </ion-item>
-                    <ion-item>
-                        <ion-icon name="create" slot="end" (click)="presentAlertPrompt()"></ion-icon>
-                        <ion-label>{{user.displayName}}</ion-label>
-
-                        <ion-icon name="person" slot="start"></ion-icon>
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-icon name="create" slot="end" (click)="presentAlertPrompt()"></ion-icon>
-                        <ion-label>{{user.Address}}</ion-label>
-
-                        <ion-icon name="pin" slot="start"></ion-icon>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>{{user.Email}}</ion-label>
-                        <ion-icon name="mail" slot="start"></ion-icon>
-                    </ion-item>
-                </ion-list>
-
             </div>
+
+            <div class="spinner" *ngIf="((uploadPercent | async ) >0 && (uploadPercent | async ) !='') || (progress>0 && progress !='')">
+                <ion-spinner name="crescent" color="success"></ion-spinner>
+            </div>
+            <br><br><br>
+            <ion-list>
+                <ion-item>
+                    <ion-label>Details</ion-label>
+                </ion-item>
+                <ion-item>
+
+                    <ion-label>{{user.displayName}}</ion-label>
+
+                    <ion-icon name="person" slot="start"></ion-icon>
+                </ion-item>
+
+                <ion-item>
+
+                    <ion-label>{{user.Address}}</ion-label>
+
+                    <ion-icon name="pin" slot="start"></ion-icon>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{user.Email}}</ion-label>
+                    <ion-icon name="mail" slot="start"></ion-icon>
+                </ion-item>
+                <ion-item>
+                    <ion-icon name="arrow-forward" slot="end" (click)="SpazaShop()"></ion-icon>
+                    <ion-label>Register SpazaShop</ion-label>
+                    <ion-icon name="paper" slot="start"></ion-icon>
+                </ion-item>
+            </ion-list>
+            <ion-button expand="full" (click)='update(user)'> Update</ion-button>
         </div>
     </ion-list>
 

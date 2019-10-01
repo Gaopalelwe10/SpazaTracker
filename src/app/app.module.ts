@@ -16,7 +16,13 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 const firebaseConfig = {
- 
+  apiKey: "AIzaSyDMJCzNKJe3XDsfEdAPYnEAZWdsva0dTFU",
+  authDomain: "spazatrack.firebaseapp.com",
+  databaseURL: "https://spazatrack.firebaseio.com",
+  projectId: "spazatrack",
+  storageBucket: "spazatrack.appspot.com",
+  messagingSenderId: "822494409282",
+  appId: "1:822494409282:web:3ce7dc82682553cdcb33db"
 };
 
 @NgModule({

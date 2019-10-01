@@ -29,7 +29,14 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 .mapboxgl-ctrl-top-right {
-    left: auto;
-    right: auto;
+    // left: 50%;
+    // right: 5%;
+    // width: 100%;
     position: absolute;
+    top: 40px;
+}
+
+ion-toolbar {
+    --background: transparent;
+    --ion-color-base: transparent !important;
 }

@@ -9,6 +9,26 @@
             <ion-content>
 
                 <ion-list>
+                    <div *ngIf="authService.user  | async as user">
+                        <div class="profile-image">
+                            <br>
+                            <div *ngIf="user.photoURL =='' ">
+                                <img src="/assets/img/avatar.svg">
+
+                            </div>
+                            <div *ngIf="user.photoURL !='' ">
+                                <img data-src="{{user.photoURL}}" (click)="zoom(user)">
+                            </div>
+                            <br>
+                            <div class="name">
+                                {{user.displayName}}
+                            </div>
+
+                        </div>
+
+
+                        <br>
+                    </div>
                     <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
                         <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
                             <ion-icon slot="start" [name]="p.icon"></ion-icon>

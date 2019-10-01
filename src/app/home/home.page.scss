@@ -13,7 +13,7 @@ input {
     width: 100%;
 }
 
-#geocoder-container>div {
-    min-width: 50%;
-    margin-left: 25%;
+ion-toolbar {
+    --background: transparent;
+    --ion-color-base: transparent !important;
 }

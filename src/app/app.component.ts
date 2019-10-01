@@ -17,11 +17,11 @@ export class AppComponent {
       url: '/home',
       icon: 'home'
     },
-    // {
-    //   title: 'List',
-    //   url: '/list',
-    //   icon: 'list'
-    // },
+    {
+      title: 'Spaza Board',
+      url: '/spazaboard',
+      icon: 'list'
+    },
     {
       title: 'Profile',
       url: '/profile',

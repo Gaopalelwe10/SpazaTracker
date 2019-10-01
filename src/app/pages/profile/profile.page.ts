@@ -4,6 +4,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AlertController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +25,8 @@ export class ProfilePage implements OnInit {
     private Viewer : PhotoViewer,
     public afs: AngularFirestore,  
     private alertCtrl : AlertController,
-    public afAuth: AngularFireAuth
+    public afAuth: AngularFireAuth,
+    private route: Router
     ) { 
     this.users=this.afs.collection('users', ref=>ref.orderBy('displayName')).valueChanges();
     this.currentuser=this.authService.getUID();
@@ -43,17 +45,24 @@ export class ProfilePage implements OnInit {
   
   }
 
-  async presentAlertPrompt() {
+  async update(user) {
     const alert = await this.alertCtrl.create({
       subHeader: 'Add/Edit Name',
       inputs: [
         {
-          name: 'name1',
+          name: 'displayName',
           type: 'text',
-          value: this.username,
-          placeholder: 'Placeholder 1'
-        }
+          value:user.displayName,
+          placeholder: 'displayName'
+        },
+        {
+          name: 'Address',
+          type: 'text',
+          value:user.Address,
+          placeholder: 'Address'
+        },   
       ],
+      
       buttons: [
         {
           text: 'Cancel',
@@ -67,15 +76,23 @@ export class ProfilePage implements OnInit {
           handler: (inputData) => {
             console.log(inputData.name1)
             this.afAuth.auth.currentUser.updateProfile({
-              displayName: inputData.name1
+              displayName: inputData.displayName,
             })
             this.MUsers.update({
-              displayName: inputData.name1
+              Address: inputData.Address,
+              displayName: inputData.displayName,
             })
            
           }
         }
       ]
     });
+
+    await alert.present();
+    let result = await alert.onDidDismiss();
+  
+  }
+  SpazaShop(){
+    this.route.navigateByUrl("spazaform");
   }
 }

@@ -8,6 +8,11 @@
     }
 }
 
+ion-toolbar {
+    --background: transparent;
+    --ion-color-base: transparent !important;
+}
+
 .profile-image img {
     display: block;
     margin-left: auto;
