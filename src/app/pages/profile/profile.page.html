@@ -59,6 +59,7 @@
                     <ion-label>{{user.displayName}}</ion-label>
 
                     <ion-icon name="person" slot="start"></ion-icon>
+                    <ion-icon name="create" slot="end" (click)=" NameUpdate(user)"></ion-icon>
                 </ion-item>
 
                 <ion-item>
@@ -66,18 +67,24 @@
                     <ion-label>{{user.Address}}</ion-label>
 
                     <ion-icon name="pin" slot="start"></ion-icon>
+                    <ion-icon name="create" slot="end" (click)="AddressUpdate(user)"></ion-icon>
                 </ion-item>
                 <ion-item>
                     <ion-label>{{user.Email}}</ion-label>
                     <ion-icon name="mail" slot="start"></ion-icon>
                 </ion-item>
-                <ion-item>
+                <ion-item *ngIf="user.Registered == 'no'">
                     <ion-icon name="arrow-forward" slot="end" (click)="SpazaShop()"></ion-icon>
                     <ion-label>Register SpazaShop</ion-label>
                     <ion-icon name="paper" slot="start"></ion-icon>
                 </ion-item>
+                <ion-item *ngIf="user.Registered == 'yes'">
+                    <ion-icon name="arrow-forward" slot="end" (click)="SpazaShop()"></ion-icon>
+                    <ion-label>Already Registered update</ion-label>
+                    <ion-icon name="paper" slot="start"></ion-icon>
+                </ion-item>
             </ion-list>
-            <ion-button expand="full" (click)='update(user)'> Update</ion-button>
+            <!-- <ion-button expand="full" (click)='update(user)'> Update</ion-button> -->
         </div>
     </ion-list>
 

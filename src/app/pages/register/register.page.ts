@@ -47,6 +47,7 @@ export class RegisterPage implements OnInit {
         Email:this.register.value.email,
         Address:this.register.value.address,
         photoURL:'', 
+        Registered:"no",
       }).then(()=>{
         this.nav.navigateRoot('home');
       }).catch(err=>{

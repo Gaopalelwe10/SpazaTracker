@@ -15,8 +15,20 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-const firebaseConfig = {
+import { Camera} from '@ionic-native/camera/ngx';
+import { File } from '@ionic-native/file/ngx';
 
+import { SharedModule } from './shared/shared/shared.module';
+import {HttpClientModule} from '@angular/common/http'
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDMJCzNKJe3XDsfEdAPYnEAZWdsva0dTFU",
+  authDomain: "spazatrack.firebaseapp.com",
+  databaseURL: "https://spazatrack.firebaseio.com",
+  projectId: "spazatrack",
+  storageBucket: "spazatrack.appspot.com",
+  messagingSenderId: "822494409282",
+  appId: "1:822494409282:web:3ce7dc82682553cdcb33db"
 };
 
 @NgModule({
@@ -30,6 +42,8 @@ const firebaseConfig = {
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    SharedModule,
+    HttpClientModule
   
   ],
   providers: [
@@ -37,7 +51,9 @@ const firebaseConfig = {
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     PhotoViewer,
-    Geolocation 
+    Geolocation ,
+    Camera,
+    File
   ],
   bootstrap: [AppComponent]
 })

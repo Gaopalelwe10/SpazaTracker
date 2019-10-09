@@ -8,5 +8,23 @@
 </ion-header>
 
 <ion-content>
-
+    <ion-searchbar showcancelbutton="" (ionInput)="filterList($event)"></ion-searchbar>
+    <br>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let spaza of spazalist">
+            <td>{{spaza.spazaName}}</td>
+            <td>{{spaza.Discription}}</td>
+            <td>{{spaza.Address}}</td>
+            <td>
+                <ion-icon name="arrow-round-forward" (click)="comment(spaza)"></ion-icon>
+            </td>
+            <!-- <td>{{spazadetails.SpazaLocation}}</td> -->
+        </tr>
+    </table>
 </ion-content>

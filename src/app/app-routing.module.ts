@@ -21,7 +21,8 @@ const routes: Routes = [
   { path: 'register', loadChildren: './pages/register/register.module#RegisterPageModule' },
   { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' },
   { path: 'spazaform', loadChildren: './pages/spazaform/spazaform.module#SpazaformPageModule' },
-  { path: 'spazaboard', loadChildren: './pages/spazaboard/spazaboard.module#SpazaboardPageModule' }
+  { path: 'spazaboard', loadChildren: './pages/spazaboard/spazaboard.module#SpazaboardPageModule' },  { path: 'comment', loadChildren: './pages/comment/comment.module#CommentPageModule' }
+
 ];
 
 @NgModule({
