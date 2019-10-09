@@ -138,4 +138,8 @@ export class SpazaformPage implements OnInit {
     })
     this.urlPath = "";
   }
+  ico(){
+    this.route.navigateByUrl("profile");
+  }
+
 }

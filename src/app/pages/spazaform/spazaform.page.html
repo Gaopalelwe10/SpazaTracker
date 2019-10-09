@@ -15,6 +15,9 @@
         <div class="forms">
 
             <div class="form">
+
+                <!-- <ion-icon name="arrow-round-back" class="ico" (click)="ico()"></ion-icon> -->
+
                 <br><br>
                 <div class="profile-image">
                     <div>
@@ -109,7 +112,15 @@
                 </ion-item> -->
                 <ion-item color="transparent" class="group">
                     <ion-label position="floating">Open Hours:</ion-label>
-                    <ion-input type="Hours" formControlName="Hours"></ion-input>
+                    <!-- <ion-input type="Hours" formControlName="Hours"></ion-input> -->
+                    <ion-select>
+                        <ion-select-option value="1">08:00-10:00</ion-select-option>
+                        <ion-select-option value="2">10:00-11:00</ion-select-option>
+                        <ion-select-option value="3">11:00-12:00</ion-select-option>
+                        <ion-select-option value="5">12:00-13:30</ion-select-option>
+                        <ion-select-option value="6">13:30-14:30</ion-select-option>
+                        <ion-select-option value="7">14:30-16:00</ion-select-option>
+                    </ion-select>
                 </ion-item>
                 <div *ngIf="form.controls.Hours.invalid && form.controls.Hours.dirty">
                 </div>

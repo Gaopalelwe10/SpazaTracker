@@ -48,14 +48,14 @@ ion-toolbar {
     text-align: center;
 }
 
-.form .group .button {
-    background: #c04f1e;
-    width: 100%;
-    border: none;
-    padding: 15px 20px;
-    border-radius: 25px;
-}
-
+// .form .group .button {
+//     background: #c04f1e;
+//     width: 100%;
+//     border: none;
+//     padding: 15px 20px;
+//     border-radius: 25px;
+//     height: 100px;
+// }
 img {
     border-radius: 50%;
     text-align: center;
@@ -63,6 +63,7 @@ img {
 
 .ion-button {
     background: #c04f1e;
+    height: 100px;
 }
 
 :root {
@@ -134,4 +135,11 @@ ion-spinner {
 
 .searchv {
     font-size: 3vw;
+}
+
+.ico {
+    // margin-right: auto;
+    position: absolute;
+    left: 0px;
+    top: 0px;
 }
