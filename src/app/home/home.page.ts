@@ -63,6 +63,7 @@ export class HomePage {
       })
       this.spazaService.getSpazas().subscribe((markers: any) => {
         markers.forEach(element => {
+          
           map.setCenter([element.lng, element.lat]);
           console.log(element.lng, element.lat)
           var marker = new mapboxgl.Marker()
