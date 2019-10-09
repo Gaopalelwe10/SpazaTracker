@@ -130,6 +130,7 @@ export class SpazaformPage implements OnInit {
       photoURL: this.urlPath,
       Registered: "yes",
       lat: this.lat,
+      lng: this.lng,
     }).then(() => {
       this.route.navigateByUrl("spazaboard")
     }).catch(err => {

@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { SpazaService } from '../services/spaza.service';
 
 @Component({
   selector: 'app-home',
@@ -11,14 +12,14 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  @ViewChild('map', {static: false}) mapNativeElement: ElementRef
+  @ViewChild('map', { static: false }) mapNativeElement: ElementRef
   map: any;
 
   startPosition: any;
   originPosition: string;
   destinationPosition: string;
 
-  constructor(public menuCtrl: MenuController,private authService: AuthService , public geolocation : Geolocation) {}
+  constructor(public menuCtrl: MenuController, private authService: AuthService, public geolocation: Geolocation, public spazaService: SpazaService) { }
   ionViewWillEnter() {
     this.menuCtrl.enable(true);
   }
@@ -26,8 +27,9 @@ export class HomePage {
 
   ionViewDidEnter() {
     this.initializeMapBox();
+    // this.loadAllmakers();
   }
-  
+
   initializeMapBox() {
 
 
@@ -38,16 +40,16 @@ export class HomePage {
       style: 'mapbox://styles/mapbox/streets-v9',
       zoom: 10,
       // center: [lng, lat],
-      center: [	28.218370, -25.731340] 
+      center: [28.218370, -25.731340]
     });
 
     map.addControl(new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       marker: {
         color: 'orange'
-        },
+      },
       mapboxgl: mapboxgl,
-      
+
     }));
 
     this.geolocation.getCurrentPosition()
@@ -59,6 +61,25 @@ export class HomePage {
           .setLngLat([this.startPosition.longitude, this.startPosition.latitude])
           .addTo(map);
       })
+      this.spazaService.getSpazas().subscribe((markers: any) => {
+        markers.forEach(element => {
+          map.setCenter([element.lat, element.lng]);
+          console.log(element.lng, element.lat)
+          var marker = new mapboxgl.Marker()
+            .setLngLat([element.lat, element.lng])
+            .addTo(map);
+        });
+      })
 
+  }
+  loadAllmakers() {
+    this.spazaService.getSpazas().subscribe((markers: any) => {
+      markers.forEach(element => {
+        console.log(element.lng, element.lat)
+        var marker = new mapboxgl.Marker()
+          .setLngLat([element.lng, element.lat])
+          .addTo(this.map);
+      });
+    })
   }
 }

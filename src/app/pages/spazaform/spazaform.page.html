@@ -79,14 +79,14 @@
                 <ion-grid>
                     <ion-row>
                         <ion-col>
-                            <div *ngFor="let coodinates of coodinateses;">
+                            <div *ngFor="let coodinates of coodinateses; let i index">
                                 <div style="position: absolute;width: 100%;z-index: 999; ">
                                     <ion-list lines="none" *ngIf="addresses.length > 0" color="lightb" style="background: var(--ion-item-background,var(--ion-background-color, black)); ">
 
-                                        <ion-item *ngFor="let address of addresses " (click)="onSelect(address, coodinates)" color="dark">
+                                        <ion-item *ngFor="let address of addresses" color="dark">
 
                                             <ion-icon name="pin"></ion-icon>
-                                            <p class="searchv">{{ address}}</p>
+                                            <p class="searchv" (click)="onSelect(address, coodinates)">{{ address}}</p>
                                         </ion-item>
 
                                     </ion-list>
