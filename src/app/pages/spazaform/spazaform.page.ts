@@ -83,9 +83,9 @@ export class SpazaformPage implements OnInit {
     if (searchTerm && searchTerm.length > 0 ) {
       this.mapboxService.search_word(searchTerm)
         .subscribe((features: Feature[]) => {
-          this.coodinateses = features.map(feat =>  feat.geometry)
+      
           this.addresses = features.map(feat => feat.place_name,)
-          
+          this.coodinateses = features.map(feat =>  feat.geometry)
           console.log(features)
         });
     } else {

@@ -63,10 +63,10 @@ export class HomePage {
       })
       this.spazaService.getSpazas().subscribe((markers: any) => {
         markers.forEach(element => {
-          map.setCenter([element.lat, element.lng]);
+          map.setCenter([element.lng, element.lat]);
           console.log(element.lng, element.lat)
           var marker = new mapboxgl.Marker()
-            .setLngLat([element.lat, element.lng])
+            .setLngLat([element.lng, element.lat])
             .addTo(map);
         });
       })
