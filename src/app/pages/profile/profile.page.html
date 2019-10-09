@@ -24,10 +24,17 @@
                     <ion-fab horizontal="center" vertical="top" class="fab">
                         <ion-fab-button color="light">
                             <ion-icon name="camera" class="input" color="medium"> </ion-icon>
+
+
+
                         </ion-fab-button>
                         <ion-fab-list side="start">
                             <ion-fab-button color="warning">
-                                <ion-icon name="camera" color="light" (click)="pickImage()" class="camera"> </ion-icon>
+                                <ion-icon name="camera" color="light" (click)="pickImage()" class="camera">
+
+
+
+                                </ion-icon>
                             </ion-fab-button>
 
                         </ion-fab-list>
@@ -35,7 +42,9 @@
                         <ion-fab-list side="end">
                             <ion-fab-button color="warning">
                                 <label for="file-input1">
-                                                        <ion-icon name="document" color="light" class="document"> </ion-icon> 
+                             <ion-icon name="document" color="light" class="document" (click)="fileInput.click()">
+                          <input style="display: none" type="file" (change)="upload($event)" #fileInput>
+                         </ion-icon> 
                                                 </label>
                             </ion-fab-button>
                         </ion-fab-list>

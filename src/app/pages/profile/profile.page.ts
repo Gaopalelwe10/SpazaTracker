@@ -5,6 +5,8 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { AlertController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
+import { AngularFireStorage } from '@angular/fire/storage';
 @Component({
  selector: 'app-profile',
  templateUrl: './profile.page.html',
@@ -17,13 +19,24 @@ export class ProfilePage implements OnInit {
     sub
     username: string;
  photoURL: string;
+
+ 
+ id;
+ name;
+ url;
+
+
+
+ uploadState: any;
+ ref;
+ downloadURL: any;
  constructor(
    private authService: AuthService,
    private Viewer : PhotoViewer,
    public afs: AngularFirestore,
    private alertCtrl : AlertController,
    public afAuth: AngularFireAuth,
-   private route: Router
+   private route: Router,public Storage: AngularFireStorage
    ) {
    this.users=this.afs.collection('users', ref=>ref.orderBy('displayName')).valueChanges();
    this.currentuser=this.authService.getUID();
@@ -33,6 +46,11 @@ export class ProfilePage implements OnInit {
             this.username = event.displayName
             this.photoURL = event.photoURL
    })
+
+   this.MUsers=afs.doc(`users/${this.afAuth.auth.currentUser.uid}`)
+    this.sub=this.MUsers.valueChanges().subscribe(event=>{
+      this.photoURL = event.photoURL
+    })
  }
  ngOnInit() {
  }
@@ -156,6 +174,31 @@ export class ProfilePage implements OnInit {
  ico(){
    this.route.navigateByUrl("home");
  }
+
+ upload(event) {
+  const file= event.target.files[0];
+ this.id = Math.random().toString(36).substring(2);
+const filepath=this.id;
+this.ref = this.Storage.ref(filepath);
+const task = this.Storage.upload(filepath, file);
+
+this.uploadState = task.percentageChanges();
+task.snapshotChanges().pipe(
+  finalize(() => {
+    this.downloadURL = this.ref.getDownloadURL().subscribe(url=>{
+       console.log(url);
+       this.afAuth.auth.currentUser.updateProfile({
+        photoURL: url
+       })
+       this.MUsers.update({
+         photoURL: url
+       })
+     })
+   })
+ ).subscribe();
+} 
+
+
 }
 
 
