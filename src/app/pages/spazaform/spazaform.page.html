@@ -21,8 +21,16 @@
                 <br><br>
                 <div class="profile-image">
                     <div>
-                        <img src="/assets/img/avatar.svg">
+                        <!-- <img src="/assets/img/avatar.svg"> -->
+                        <div *ngIf="urlPath =='' ">
+                            <img src="/assets/img/avatar.svg">
 
+                        </div>
+                        <div *ngIf="urlPath !='' ">
+                            <img data-src="{{urlPath}}" (click)="zoom(user)">
+                            <!-- <div *ngIf="(uploadPercent | async ) >0 && (uploadPercent | async ) !=''"> -->
+
+                        </div>
                     </div>
 
                     <div class="image-upload">
@@ -82,19 +90,19 @@
                 <ion-grid>
                     <ion-row>
                         <ion-col>
-                            <div *ngFor="let coodinates of coodinateses; let i index">
-                                <div style="position: absolute;width: 100%;z-index: 999; ">
-                                    <ion-list lines="none" *ngIf="addresses.length > 0" color="lightb" style="background: var(--ion-item-background,var(--ion-background-color, black)); ">
 
-                                        <ion-item *ngFor="let address of addresses" color="dark">
+                            <div style="position: absolute;width: 100%;z-index: 999; ">
+                                <ion-list lines="none" *ngIf="addresses.length > 0" color="lightb" style="background: var(--ion-item-background,var(--ion-background-color, black)); ">
+                                    <div *ngFor="let coodinates of coodinateses; let i=index">
+                                        <ion-item *ngFor="let address of addresses [i]" (click)="onSelect(address, coodinates)" color="dark">
 
                                             <ion-icon name="pin"></ion-icon>
-                                            <p class="searchv" (click)="onSelect(address, coodinates)">{{ address}}</p>
+                                            <p class="searchv">{{ address}}</p>{{i}}
                                         </ion-item>
+                                    </div>
+                                </ion-list>
 
-                                    </ion-list>
 
-                                </div>
                             </div>
                         </ion-col>
                     </ion-row>

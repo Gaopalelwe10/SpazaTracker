@@ -37,8 +37,8 @@ export class SpazaformPage implements OnInit {
   date = this.today.getDate() + "" + (this.today.getMonth() + 1) + "" + this.today.getFullYear();
   time = this.today.getHours() + "" + this.today.getMinutes();
   dateTime = this.date + "" + this.time;
-  urlPath: any;
-
+  urlPath: any='';
+ list:any;
   lng;
   lat;
   constructor(private fb: FormBuilder, private afAuth: AngularFireAuth, private afs: AngularFirestore, private route: Router, private storage: AngularFireStorage, public mapboxService: MapboxService) {
@@ -49,6 +49,7 @@ export class SpazaformPage implements OnInit {
       Hours: ['', Validators.required],
       Number: ['', Validators.required]
     });
+  
   }
 
   ngOnInit() {
@@ -83,9 +84,9 @@ export class SpazaformPage implements OnInit {
     if (searchTerm && searchTerm.length > 0 ) {
       this.mapboxService.search_word(searchTerm)
         .subscribe((features: Feature[]) => {
-          this.coodinateses = features.map(feat =>  feat.geometry)
-          this.addresses = features.map(feat => feat.place_name,)
           
+          this.addresses = features.map(feat =>  feat.place_name,)
+          this.coodinateses = features.map(feat =>  feat.geometry)
           console.log(features)
         });
     } else {
