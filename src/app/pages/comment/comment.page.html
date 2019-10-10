@@ -53,7 +53,7 @@
             <div *ngFor="let comment of spaza.recentComments">
                 <div *ngFor="let user of users | async">
 
-                    <ion-card *ngIf="user.uid === comment.uid">
+                    <ion-card *ngIf="user.uid === comment.uid" color="lightb">
                         <ion-item>
                             <ion-avatar slot="start" *ngIf="user.photoURL =='' ">
                                 <img src="/assets/img/avatar.svg">

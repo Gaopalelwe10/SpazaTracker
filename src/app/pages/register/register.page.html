@@ -4,6 +4,8 @@
         <div class="forms">
 
             <div class="form">
+                <img src="assets/img/cov.PNG" alt="Avatar" class="imgC">
+
                 <ion-item color="transparent" class="group">
                     <ion-label position="floating">Usename</ion-label>
                     <ion-input type="text" formControlName="username" required></ion-input>
@@ -68,7 +70,7 @@
                     Minimum 6 characters
                 </div>
 
-                <div class="error" *ngIf="register.get('cpassword').hasError('cmaxlength') && register.get('cpassword').touched">
+                <div class="error" *ngIf="register.get('cpassword').hasError('maxlength') && register.get('cpassword').touched">
                     Maximum 12 characters
                 </div>
 

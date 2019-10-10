@@ -49,6 +49,7 @@ export class RegisterPage implements OnInit {
         photoURL:'', 
         Registered:"no",
       }).then(()=>{
+        
         this.nav.navigateRoot('home');
       }).catch(err=>{
         alert(err.message)

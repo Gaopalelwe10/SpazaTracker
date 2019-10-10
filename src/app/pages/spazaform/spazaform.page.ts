@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
 import { MapboxService, Feature } from 'src/app/services/mapbox.service';
 import { IfStmt } from '@angular/compiler';
+import { auth } from 'firebase';
+import { AuthService } from 'src/app/services/auth.service';
+import { SpazaService } from 'src/app/services/spaza.service';
 
 @Component({
   selector: 'app-spazaform',
@@ -16,6 +19,8 @@ import { IfStmt } from '@angular/compiler';
 })
 export class SpazaformPage implements OnInit {
 
+  RegisterForm: string ="true";
+  UpdateForm: string = "false";
   form: FormGroup;
   map: any;
 
@@ -23,7 +28,7 @@ export class SpazaformPage implements OnInit {
   marker?: any;
   startPosition;
 
-
+  uid: any;
   addresses: string[] = [];
   coodinateses: string[] = [];
 
@@ -37,24 +42,77 @@ export class SpazaformPage implements OnInit {
   date = this.today.getDate() + "" + (this.today.getMonth() + 1) + "" + this.today.getFullYear();
   time = this.today.getHours() + "" + this.today.getMinutes();
   dateTime = this.date + "" + this.time;
-  urlPath: any='';
- list:any;
+  urlPath: any = '';
+  list: any;
+
   lng;
   lat;
-  constructor(private fb: FormBuilder, private afAuth: AngularFireAuth, private afs: AngularFirestore, private route: Router, private storage: AngularFireStorage, public mapboxService: MapboxService) {
+
+
+  // Email: string;
+  photoURL: string;
+  spazaName: string;
+  Address: string;
+  Hours: string;
+  Number: string;
+  Discription: string;
+
+  constructor(private fb: FormBuilder,
+    private afAuth: AngularFireAuth,
+    private afs: AngularFirestore,
+    private route: Router,
+    private storage: AngularFireStorage,
+    public mapboxService: MapboxService,
+    public authService: AuthService,
+    public spazaService: SpazaService,
+    private routeA: ActivatedRoute) {
+
+    this.routeA.queryParams
+      .subscribe(params => {
+        this.UpdateForm = params.UpdateForm;
+        this.RegisterForm = params.RegisterForm;
+      
+        console.log("")
+        console.log("RegisterForm " + this.RegisterForm);
+        console.log("UpdateForm " + this.UpdateForm);
+      });
+    this.uid = this.afAuth.auth.currentUser.uid;
+
     this.form = fb.group({
       Spaza: ['', Validators.compose([Validators.pattern('[a-zA-Z ]*'), Validators.minLength(4), Validators.maxLength(30), Validators.required])],
-      Discription: ['', Validators.compose([Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      Discription: ['', Validators.required],
       Address: ['', Validators.required],
       Hours: ['', Validators.required],
-      Number: ['', Validators.required]
+      Number: ['', Validators.compose([Validators.minLength(10), Validators.maxLength(10), Validators.required])],
     });
-  
+
+    
+
+
   }
 
   ngOnInit() {
+    if (this.UpdateForm == "true") {
+      this.spazaService.updateSpaza(this.uid).subscribe((data) => {
+        this.photoURL = data.photoURL;
+      })
+    }
   }
+  ionViewDidEnter() {
+    if (this.UpdateForm == "true") {
+      this.spazaService.updateSpaza(this.uid).subscribe((data) => {
+        this.selectedAddress = data.Address;
+        this.Number = data.Number;
+        this.photoURL = data.photoURL;
+        this.spazaName = data.spazaName;
+        this.Discription = data.Discription;
+        this.Hours = data.Hours;
+        this.lat = data.lat;
+        this.lng = data.lng;
+      })
+    }
 
+  }
   Pic(event) {
     const file = event.target.files[0];
     this.uniqkey = 'PIC' + this.dateTime;
@@ -77,34 +135,35 @@ export class SpazaformPage implements OnInit {
     ).subscribe();
   }
 
-  
+
 
   search(event: any) {
     const searchTerm = event.target.value.toLowerCase();
-    if (searchTerm && searchTerm.length > 0 ) {
+    if (searchTerm && searchTerm.length > 0) {
       this.mapboxService.search_word(searchTerm)
         .subscribe((features: Feature[]) => {
-          
-          this.addresses = features.map(feat =>  feat.place_name,)
-          this.coodinateses = features.map(feat =>  feat.geometry)
-          console.log(features)
+          this.coodinateses = features.map(feat => feat.geometry)
+          this.addresses = features.map(feat => feat.place_name)
+          this.list = features;
+          console.log(this.list)
         });
     } else {
       this.addresses = [];
     }
   }
-  onSelect(address, coodinates) {
+
+  onSelect(address, i) {
     this.selectedAddress = address;
     //  selectedcoodinates=
 
-      console.log("lng:" +coodinates.coordinates[0])
-      console.log("lat:"+ coodinates.coordinates[1])
-    this.lng=coodinates.coordinates[0];
-    this.lat=coodinates.coordinates[1];
-    
-   
-    console.log( this.selectedAddress )
-    console.log(coodinates)
+    console.log("lng:" + JSON.stringify(this.list[i].geometry.coordinates[0]))
+    console.log("lat:" + JSON.stringify(this.list[i].geometry.coordinates[1]))
+    this.lng = JSON.stringify(this.list[i].geometry.coordinates[0])
+    this.lat = JSON.stringify(this.list[i].geometry.coordinates[1])
+
+    console.log("index =" + i)
+    console.log(this.selectedAddress)
+
     //add to FireBase
     // this.dog.collection('coordinate').add({
     //   lat: this.temp.coordinates[1],
@@ -120,9 +179,9 @@ export class SpazaformPage implements OnInit {
     this.addresses = [];
   }
   Submit() {
-    this.afs.collection('spazashop').doc(this.afAuth.auth.currentUser.uid).set({
+    this.afs.collection('spazashop').doc(this.uid).set({
       spazaName: this.form.value.Spaza,
-      uid: this.afAuth.auth.currentUser.uid,
+      uid: this.uid,
       Timestamp: Date.now(),
       Discription: this.form.value.Discription,
       Address: this.form.value.Address,
@@ -133,10 +192,17 @@ export class SpazaformPage implements OnInit {
       lat: this.lat,
       lng: this.lng,
     }).then(() => {
-      this.route.navigateByUrl("spazaboard")
+      this.authService.updateRegistered(this.uid, "yes").then(()=>{
+        this.route.navigateByUrl("spazaboard")
+      })
+    
     }).catch(err => {
       alert(err.message)
     })
     this.urlPath = "";
+  }
+
+  update() {
+
   }
 }

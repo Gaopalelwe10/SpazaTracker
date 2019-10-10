@@ -70,5 +70,10 @@ export class AuthService {
   }
   getUID(): string {
 		return this.afAuth.auth.currentUser.uid;
-	}
+  }
+  updateRegistered(key,value){
+    return this.afs.doc('users/'+ key).update({
+      Registered: value,
+    })
+  }
 }

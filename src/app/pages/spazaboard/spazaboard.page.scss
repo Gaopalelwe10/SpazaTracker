@@ -7,7 +7,6 @@ table {
 
 th,
 td {
-    text-align: left;
     padding: 8px;
 }
 
@@ -18,4 +17,8 @@ tr:nth-child(even) {
 th {
     background-color: rgb(106, 117, 107);
     color: white;
+}
+
+td {
+    font-size: 2vw;
 }
